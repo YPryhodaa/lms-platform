@@ -1,36 +1,22 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { loginSchema, type LoginValues } from '@/lib/validation'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema, type LoginValues } from '@/lib/validation';
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 
-import { applyFieldErrors } from '@/lib/forms/errors/applyFieldErrors'
-import { ApiErrorResponse } from '@/lib/forms/errors/types'
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
-  const router = useRouter()
-  const [serverError, setServerError] = useState<string | null>(null)
+import { applyFieldErrors } from '@/lib/forms/errors/applyFieldErrors';
+import { ApiErrorResponse } from '@/lib/forms/errors/types';
+export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) {
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -38,8 +24,12 @@ export function LoginForm({
       email: '',
       password: '',
     },
-  })
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = form
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
 
   const onSubmit = async (values: LoginValues) => {
     try {
@@ -49,29 +39,26 @@ export function LoginForm({
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-      const data = await res.json().catch(() => null)
+      });
+      const data = await res.json().catch(() => null);
 
       if (res.ok) {
-        router.push('/')
-        return
+        router.push('/');
+        return;
       }
 
-      const { hadFieldErrors, message } = applyFieldErrors(form, data as ApiErrorResponse | null)
-      if (!hadFieldErrors) setServerError(message || null)
-      
+      const { hadFieldErrors, message } = applyFieldErrors(form, data as ApiErrorResponse | null);
+      if (!hadFieldErrors) setServerError(message || null);
     } catch (error) {
-      setServerError('Не вдалося ввійти')
+      setServerError('Не вдалося ввійти');
     }
-  }
+  };
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
           <CardTitle>Вхід</CardTitle>
-          <CardDescription>
-            Введіть вашу електронну пошту нижче для входу
-          </CardDescription>
+          <CardDescription>Введіть вашу електронну пошту нижче для входу</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -96,11 +83,14 @@ export function LoginForm({
                     Забули ваш пароль?
                   </a> */}
                 </div>
-                <Input id="password" type="password" {...register('password')} error={errors.password?.message} />
+                <Input
+                  id="password"
+                  type="password"
+                  {...register('password')}
+                  error={errors.password?.message}
+                />
               </Field>
-              {serverError && (
-                <p className="text-sm text-red-600">{serverError}</p>
-              )}
+              {serverError && <p className="text-sm text-red-600">{serverError}</p>}
               <Field>
                 <Button type="submit" disabled={isSubmitting}>
                   {isSubmitting ? 'Вхід...' : 'Вхід'}
@@ -117,5 +107,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

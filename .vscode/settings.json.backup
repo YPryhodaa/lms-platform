@@ -6,7 +6,13 @@
   "prettier.enable": true,
   "prettier.requireConfig": false,
   "prettier.useEditorConfig": false,
+  "prettier.enableDebugLogs": true,
   "prettier.resolveGlobalModules": true,
+  "prettier.prettierPath": "./node_modules/prettier/index.js",
+  "prettier.configPath": "./.prettierrc",
+  "prettier.documentSelectors": [
+    "**/*.{ts,tsx,js,jsx,json,css,md}"
+  ],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
@@ -15,13 +21,12 @@
     }
   },
   "[typescriptreact]": {
-    "editor.formatOnSave": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
-    },
-    "editor.defaultFormatter": null
+    }
   },
-  "task.allowAutomaticTasks": "on",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
@@ -51,3 +56,4 @@
     }
   }
 }
+

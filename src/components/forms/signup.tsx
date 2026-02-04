@@ -1,32 +1,21 @@
-'use client'
+'use client';
 
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { signupSchema, type SignupValues } from '@/lib/validation'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signupSchema, type SignupValues } from '@/lib/validation';
 
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 
-import { applyFieldErrors } from '@/lib/forms/errors/applyFieldErrors'
-import { ApiErrorResponse } from '@/lib/forms/errors/types'
+import { applyFieldErrors } from '@/lib/forms/errors/applyFieldErrors';
+import { ApiErrorResponse } from '@/lib/forms/errors/types';
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
-  const router = useRouter()
-  const [serverError, setServerError] = useState<string | null>(null)
+  const router = useRouter();
+  const [serverError, setServerError] = useState<string | null>(null);
 
   const form = useForm<SignupValues>({
     resolver: zodResolver(signupSchema),
@@ -36,8 +25,12 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       password: '',
       confirmPassword: '',
     },
-  })
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = form
+  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = form;
 
   const onSubmit = async (values: SignupValues) => {
     try {
@@ -47,21 +40,20 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         headers: {
           'Content-Type': 'application/json',
         },
-      })
-      const data = await res.json().catch(() => null)
+      });
+      const data = await res.json().catch(() => null);
 
       if (res.ok) {
-        router.push('/')
-        return
+        router.push('/');
+        return;
       }
 
-      const { hadFieldErrors, message } = applyFieldErrors(form, data as ApiErrorResponse | null)
-      if (!hadFieldErrors) setServerError(message || null)
-        
+      const { hadFieldErrors, message } = applyFieldErrors(form, data as ApiErrorResponse | null);
+      if (!hadFieldErrors) setServerError(message || null);
     } catch (error) {
-      setServerError('Не вдалося зареєструватися')
+      setServerError('Не вдалося зареєструватися');
     }
-  }
+  };
 
   return (
     <Card {...props}>
@@ -76,7 +68,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="name">Ім'я та прізвище</FieldLabel>
-              <Input id="name" type="text"  {...register('name')} error={errors.name?.message}/>
+              <Input id="name" type="text" {...register('name')} error={errors.name?.message} />
             </Field>
             <Field>
               <FieldLabel htmlFor="email">Електронна пошта</FieldLabel>
@@ -90,24 +82,30 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             </Field>
             <Field>
               <FieldLabel htmlFor="password">Пароль</FieldLabel>
-              <Input id="password" type="password"  {...register('password')} error={errors.password?.message} />
-              <FieldDescription>
-                Має бути принаймні 8 символів.
-              </FieldDescription>
+              <Input
+                id="password"
+                type="password"
+                {...register('password')}
+                error={errors.password?.message}
+              />
+              <FieldDescription>Має бути принаймні 8 символів.</FieldDescription>
             </Field>
             <Field>
-              <FieldLabel htmlFor="confirm-password">
-                Підтвердіть пароль
-              </FieldLabel>
-              <Input id="confirm-password" type="password"  {...register('confirmPassword')} error={errors.confirmPassword?.message} />
+              <FieldLabel htmlFor="confirm-password">Підтвердіть пароль</FieldLabel>
+              <Input
+                id="confirm-password"
+                type="password"
+                {...register('confirmPassword')}
+                error={errors.confirmPassword?.message}
+              />
               <FieldDescription>Будь ласка, підтвердіть ваш пароль.</FieldDescription>
             </Field>
-            {serverError && (
-              <p className="text-sm text-red-600">{serverError}</p>
-            )}
+            {serverError && <p className="text-sm text-red-600">{serverError}</p>}
             <FieldGroup>
               <Field>
-                <Button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Реєстрація...' : 'Зареєструватися'}</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Реєстрація...' : 'Зареєструватися'}
+                </Button>
                 <Button variant="outline" type="button">
                   Зареєструватися з Google
                 </Button>
@@ -120,5 +118,5 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         </form>
       </CardContent>
     </Card>
-  )
+  );
 }

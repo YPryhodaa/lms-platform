@@ -7,4 +7,4 @@ export const V = {
   nameMin: "Вкажіть ім'я та прізвище",
   nameMax: "Занадто довге ім'я",
   nameRequired: "Вкажіть ім'я та прізвище",
-} as const
+} as const;

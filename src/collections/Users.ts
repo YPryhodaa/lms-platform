@@ -1,6 +1,6 @@
-import { adminOnly, selfOrAdmin } from 'access/policies'
-import { ROLES } from 'access/roles'
-import type { CollectionConfig } from 'payload'
+import { adminOnly, selfOrAdmin } from 'access/policies';
+import { ROLES } from 'access/roles';
+import type { CollectionConfig } from 'payload';
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -36,6 +36,6 @@ export const Users: CollectionConfig = {
         { label: 'Admin', value: ROLES.ADMIN },
         { label: 'Student', value: ROLES.STUDENT },
       ],
-    }
+    },
   ],
-}
+};

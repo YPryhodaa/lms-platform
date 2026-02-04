@@ -1,0 +1,8 @@
+[
+  {
+    "key": "ctrl+s",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Format Current File with Prettier",
+    "when": "editorTextFocus && !editorReadonly && resourceExtname =~ /\\.(ts|tsx|js|jsx)$/"
+  }
+]

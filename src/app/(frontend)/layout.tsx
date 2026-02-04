@@ -1,9 +1,9 @@
-import React from 'react'
-import '@/styles/global.css'
+import React from 'react';
+import '@/styles/global.css';
 export const dynamic = 'force-static';
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-  const { children } = props
+  const { children } = props;
 
   return (
     <html lang="en">
@@ -11,5 +11,5 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         <main>{children}</main>
       </body>
     </html>
-  )
+  );
 }
